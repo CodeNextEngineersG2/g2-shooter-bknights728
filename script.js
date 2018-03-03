@@ -50,6 +50,8 @@ var alienBulletY;
   	shipX= width/2;
   	shipY=360;
   	ellipse(shipX,shipY,shipDiameter/2,shipDiameter/2);
+  	shipShooting = false;
+  	bulletDiameter=75;
   }
 
 
@@ -72,6 +74,9 @@ var alienBulletY;
  function draw(){
  	background(0,0,128);
  	drawShip();
+ 	if(shipShooting==true){
+ 		drawBullet();
+ 	}
  }
 
 
@@ -88,23 +93,24 @@ var alienBulletY;
  }
 
 
-/*
- * keyPressed()
- * This function runs automatically when the player presses the spacebar
- * (keyCode === 32). If they do, and a bullet is not currently being fired
- * ("shipShooting" variable is false), it positions the bullet relative to the
- * ship. Then it sets the "shipShooting" variable to "true", indicating a ship
- * bullet is currently being fired.
- */
+function keyPressed(){
+	if(keyCode==32 && shipShooting==false){
+		bulletX=shipX;
+		bulletY=shipY;
+		shipShooting=true;
+	}
+}
 
-
-/*
- * drawBullet()
- * This function draws a bullet. It also checks to see if the bullet has hit
- * the alien. If it has, the alien is reset to the top-left of the screen
- * and the player earns a point. The alien aslo becomes faster (i.e., harder
- * to hit) each time it is hit by a bullet.
- */
+function drawBullet(){
+	if(bulletY>=0){
+	fill(34,139,34);
+	ellipse(bulletX,bulletY,bulletDiameter/2,bulletDiameter/2);
+	bulletY-=10;
+	}
+	else{
+		shipShooting=false;
+	}
+}
 
 
 /*
