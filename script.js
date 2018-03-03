@@ -1,5 +1,7 @@
 // UI Variables
 var canvas;
+var canvasWidth;
+var canvasHeight;
 var gameScreen;
 var scoreDisplay;
 
@@ -33,12 +35,16 @@ var alienBulletX;
 var alienBulletY;
 
 
-/*
- * setup()
- * This function is called once. Sets up the canvas, accesses HTML elements with
- * select(), and adds event listeners to those elements. Sets initial values of
- * variables by calling resetGame().
- */
+
+  function setup(){
+  	canvasWidth=500;
+  	canvasHeight=400;
+  	canvas=createCanvas(canvasWidth,canvasHeight);
+  	
+  	background(0,0,128);
+  	gameScreen = select("#game-screen");
+  	canvas.parent('game-screen');
+  }
 
 
 /*
