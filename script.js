@@ -57,6 +57,9 @@ var alienBulletY;
   	alienVelocity=10;
   	alienX=25;
   	alienY=25;
+
+  	alienBulletDiameter=15;
+  	alienShooting=false;
   }
 
 
@@ -83,6 +86,9 @@ var alienBulletY;
  		drawBullet();
  	}
  	drawAlien();
+ 	if(alienShooting==true){
+ 	drawAlienBullet();
+ 	}
  }
 
 
@@ -131,14 +137,24 @@ else if(alienX<=25){
 
  	fill(255,255,51);
  	ellipse(alienX,alienY,alienDiameter,alienDiameter);
+ 	if(random(4) < 1 && !alienShooting){
+ 		alienBulletY=alienY;
+ 		alienBulletX=alienX;
+ 		alienShooting=true;
+ 	}
  }
 
 
-/*
- * drawAlienBullet()
- * This function behaves much like drawBullet(), only it fires from the alien
- * and not the player's ship. If the bullet hits the player, it's game over.
- */
+function drawAlienBullet(){
+	if(alienBulletY<=400){
+		fill(255,255,51);
+		ellipse(alienBulletX,alienBulletY,alienBulletDiameter,alienBulletDiameter);
+		alienBulletY+=8;
+	}
+	else{
+		alienShooting=false;
+	}
+}
 
 
 /*
