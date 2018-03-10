@@ -44,8 +44,20 @@ var alienBulletY;
   	
   	gameScreen = select("#game-screen");
   	canvas.parent('game-screen');
+  	scoreDisplay = select("#score-display");
+  	resetGame();
+  }
 
-  	shipColor=139;
+
+function gameOver(){
+	gameRunning=false;
+	alert("Game Over");
+	resetGame();
+}
+ 
+
+function resetGame(){
+	shipColor=139;
   	shipDiameter= 150;
   	shipSpeed=8;
   	shipX= width/2;
@@ -61,24 +73,15 @@ var alienBulletY;
 
   	alienBulletDiameter=15;
   	alienShooting=false;
-  }
-
-
-function gameOver(){
-	alert("Game Over");
-	setup();
+  	score=0;
+  	scoreDisplay.html(score);
+	gameRunning=true;
 }
- 
-
-/*
- * resetGame()
- * This function "resets the game" by initializing ship, alien, and game
- * variables.
- */
 
 
 
  function draw(){
+ 	if(gameRunning=true){
  	background(0,0,128);
  	drawShip();
  	if(shipShooting==true){
@@ -90,6 +93,7 @@ function gameOver(){
  	}
  	checkCollision(alienX,alienY,alienDiameter,bulletX,bulletY,bulletDiameter);
  	checkCollision(shipX,shipY,shipDiameter,alienBulletX,alienBulletY,alienBulletDiameter);
+ 	}
  }
 
 
@@ -107,7 +111,7 @@ function gameOver(){
 
 
 function keyPressed(){
-	if(keyCode==32 && shipShooting==false){
+	if(keyCode==32 && shipShooting==false && gameRunning==true){
 		bulletX=shipX;
 		bulletY=shipY;
 		shipShooting=true;
@@ -123,6 +127,8 @@ function drawBullet(){
 		resetAlien();
 		alienVelocity++;
 		shipShooting = false;
+		score++;
+		scoreDisplay.html(score);
 	}
 	else {
 		shipShooting = false;
