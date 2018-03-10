@@ -36,6 +36,7 @@ var alienBulletY;
 
 
 
+
   function setup(){
   	canvasWidth=500;
   	canvasHeight=400;
@@ -63,13 +64,11 @@ var alienBulletY;
   }
 
 
-/*
- * gameOver()
- * This function stops the game from running and shows an alert telling the
- * player what their final score is. Finally it resets the game by calling
- * resetGame()
- */
-
+function gameOver(){
+	alert("Game Over");
+	setup();
+}
+ 
 
 /*
  * resetGame()
@@ -89,6 +88,8 @@ var alienBulletY;
  	if(alienShooting==true){
  	drawAlienBullet();
  	}
+ 	checkCollision(alienX,alienY,alienDiameter,bulletX,bulletY,bulletDiameter);
+ 	checkCollision(shipX,shipY,shipDiameter,alienBulletX,alienBulletY,alienBulletDiameter);
  }
 
 
@@ -114,7 +115,20 @@ function keyPressed(){
 }
 
 function drawBullet(){
-	if(bulletY>=0){
+	var hitAlien = checkCollision(alienX,alienY,alienDiameter,bulletX,bulletY,bulletDiameter);
+	if(bulletY > 0 && !hitAlien){
+		shipShooting= true;
+	}
+	else if(hitAlien){
+		resetAlien();
+		alienVelocity++;
+		shipShooting = false;
+	}
+	else {
+		shipShooting = false;
+	}
+	
+	if (bulletY>=0){
 	fill(34,139,34);
 	ellipse(bulletX,bulletY,bulletDiameter/2,bulletDiameter/2);
 	bulletY-=13;
@@ -146,6 +160,18 @@ else if(alienX<=25){
 
 
 function drawAlienBullet(){
+	var hitShip = checkCollision(shipX,shipY,shipDiameter,alienBulletX,alienBulletY,alienBulletDiameter);
+	if(alienBulletY > 0 && !hitShip){
+		alienShooting= true;
+	}
+	else if(hitShip){
+		gameOver();
+		alienVelocity++;
+		alienShooting = false;
+	}
+	else {
+		alienShooting= false;
+	}
 	if(alienBulletY<=400){
 		fill(255,255,51);
 		ellipse(alienBulletX,alienBulletY,alienBulletDiameter,alienBulletDiameter);
@@ -157,20 +183,20 @@ function drawAlienBullet(){
 }
 
 
-/*
- * resetAlien()
- * This function sets the alien to its original position at the top-left of
- * the screen. It also sets its velocity to its absolute value (so, if the
- * velocity was negative when it died, it becomes positive upon reset, making
- * it always start by moving to the right).
- */
+function resetAlien(){
+	alienX=25
+	alienY=25
+	var x = -10;
+	alienVelocity = abs(x);
+}
 
 
-/*
- * checkCollision(aX, aY, aD, bX, bY, bD)
- * This function first calculates the distance between two circles based on
- * their X and Y values. Based on the distance value, the function returns
- * "true" if the circles are touching, and false otherwise.
- * Circles are considered touching if
- * (distance <= (circle1Diameter + circle2Diameter) / 2)
- */
+function checkCollision(aX,aY,aD,bX,bY,bD){
+	var distance = dist(aX,aY,bX,bY);
+	if(distance <= (aD + bD) / 4){
+		return true;
+	}
+	else{
+		return false;
+	}
+}
