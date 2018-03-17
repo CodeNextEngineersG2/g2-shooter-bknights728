@@ -7,7 +7,13 @@ html {
 }
 
 body {
-  text-align: center;
+	background-image: url ("world.jpg");
+	background-color: black;
+    text-align: center;
+    color: white;
 }
 
+li{
+	list-style-type: none;
+}	
 

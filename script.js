@@ -46,6 +46,7 @@ var alienBulletY;
   	canvas.parent('game-screen');
   	scoreDisplay = select("#score-display");
   	resetGame();
+
   }
 
 
@@ -76,6 +77,7 @@ function resetGame(){
   	score=0;
   	scoreDisplay.html(score);
 	gameRunning=true;
+
 }
 
 
@@ -83,6 +85,12 @@ function resetGame(){
  function draw(){
  	if(gameRunning=true){
  	background(0,0,128);
+ 	for(i=0;i<width;i+=20){
+ 		for(j=0;j<height;j+=20){
+ 			fill(255,255,255,100);
+ 			ellipse(i+5,j+5,5,5);
+ 		}
+ 	} 
  	drawShip();
  	if(shipShooting==true){
  		drawBullet();
@@ -100,7 +108,13 @@ function resetGame(){
 
  function drawShip(){
  	fill(34,shipColor,34);
- 	ellipse(shipX,shipY,shipDiameter/2,shipDiameter/2);
+ 	rect(shipX-5,shipY-35,10,40);
+ 	arc(shipX,shipY,shipDiameter/2,shipDiameter/2,radians(0),radians(180));
+ 	fill(255,0,0);
+ 	triangle(shipX-5,shipY-35,shipX-5,shipY-20,shipX+20,shipY-27.5);
+ 	fill(34,shipColor,34);
+ 	rect(shipX-20,shipY+5,8,12);
+ 	rect(shipX+15,shipY+5,8,12);
  	if(keyIsDown(LEFT_ARROW) && shipX >45){
  		shipX-=shipSpeed;
  	}
@@ -154,9 +168,18 @@ if(alienX>=475){
 else if(alienX<=25){
 	alienVelocity=10;
 }
-
+	noStroke();
  	fill(255,255,51);
  	ellipse(alienX,alienY,alienDiameter,alienDiameter);
+ 	ellipse(alienX-10,alienY+20,alienDiameter/4,alienDiameter/2);
+ 	ellipse(alienX+15,alienY+20,alienDiameter/4,alienDiameter/2);
+ 	fill(0);
+ 	ellipse(alienX-5,alienY-5,alienDiameter/4,alienDiameter/4);
+ 	ellipse(alienX+15,alienY-5,alienDiameter/4,alienDiameter/4);
+ 	stroke(0);
+ 	fill(255);
+ 	rect(alienX-10,alienY+8,20,3);
+ 	rect(alienX-10,alienY+12,20,3);
  	if(random(4) < 1 && !alienShooting){
  		alienBulletY=alienY;
  		alienBulletX=alienX;
